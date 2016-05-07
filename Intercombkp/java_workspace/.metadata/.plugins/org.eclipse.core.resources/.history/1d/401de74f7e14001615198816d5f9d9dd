@@ -1,7 +1,0 @@
-package great.circle.json;
-
-public class ClientObject {
-
-	private String latitude = "";
-	private String name = "";
-}

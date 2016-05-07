@@ -1,3 +1,0 @@
-INDEX VERSION 1.126
-C:\Users\magalhgu\java_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4061401808.index
-\VotacaoOnline\src\main\resources
