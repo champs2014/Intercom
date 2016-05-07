@@ -1,0 +1,44 @@
+package great.circle.json;
+
+import java.io.File;
+import java.util.List;
+
+public class GreatCircle {
+
+	public void printUsers() {
+		Utils utils = new Utils();
+		double officeLatitude = 53.3381985;
+		double officeLongitude = -6.2592576;
+		
+		String fileUrl = File.listRoots()[0].getAbsolutePath() + File.separator + "Intercom" + File.separator  + "gistfile1.txt";
+		List<ClientObject> clientObjectList = utils.getJson(fileUrl);
+		List<ClientObject> clientInviteObjectList = utils.getJson(fileUrl);
+		
+		for (ClientObject clientObject : clientObjectList) {
+			double clientDistance = coordDistance(officeLatitude, officeLongitude, clientObject.getLatitude(), clientObject.getLongitude());
+			if (clientDistance <= 100.0) {
+				
+			}
+//			System.out.println(coordDistance(officeLatitude, officeLongitude, clientObject.getLatitude(), clientObject.getLongitude()));
+		}
+	}
+	
+	private double coordDistance(double latitude1, double longitude1, double latitude2, double longitude2) {
+	    double earthRadius = 6371.0; // miles (or 6371.0 kilometers)
+	    double dLat = Math.toRadians(latitude2-latitude1);
+	    double dLng = Math.toRadians(longitude2-longitude1);
+	    double sindLat = Math.sin(dLat / 2);
+	    double sindLng = Math.sin(dLng / 2);
+	    double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
+	            * Math.cos(Math.toRadians(latitude1)) * Math.cos(Math.toRadians(latitude2));
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	    double dist = earthRadius * c;
+
+	    return dist;
+	}
+	
+	public static void main(String[] args) {
+		GreatCircle gt = new GreatCircle();
+		gt.printUsers();
+	}
+}

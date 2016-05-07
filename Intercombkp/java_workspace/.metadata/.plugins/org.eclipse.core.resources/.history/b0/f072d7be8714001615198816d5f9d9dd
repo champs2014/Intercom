@@ -1,0 +1,8 @@
+package array.flatten;
+
+public class FlatArray {
+
+	private void flatArray() {
+		
+	}
+}
