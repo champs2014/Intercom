@@ -1,0 +1,120 @@
+package com.loteria.util;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.regex.Pattern;
+
+public class AcoesLoteria {
+	
+	private String filePath;
+	private String masterFileName;
+	
+	public AcoesLoteria(String filePath, String masterFileName) {
+		this.filePath = filePath;
+		this.masterFileName = masterFileName;
+	}
+	
+	public AcoesLoteria() {
+		this.filePath = "C:\\NUMEROS_LOTERIA\\";
+		this.masterFileName = "MASTER_LOTO.txt";
+	}
+	
+	public Map<String, Scanner> loadChildrenFileNames() {
+		Scanner scannerPai = null;
+		Map<String, Scanner> retornoNumerosLoteria = new LinkedHashMap<String, Scanner>();
+		
+		try {
+			scannerPai = new Scanner(new FileReader(this.filePath + this.masterFileName));
+			
+			while (scannerPai.hasNext()) {
+				String linhaLeituraPai = scannerPai.next();
+				String[] resultadoLeituraPai;
+				resultadoLeituraPai = linhaLeituraPai.split(Pattern.quote(";"));
+				
+				
+				String codigoSorteio = resultadoLeituraPai[0];
+				String arquivoFilho = resultadoLeituraPai[1];
+				retornoNumerosLoteria.put(codigoSorteio, new Scanner(new FileReader(this.filePath + arquivoFilho)));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			scannerPai.close();
+		}
+		
+		return retornoNumerosLoteria;
+	}
+	
+	public Map<String, List<String>> loadChildrenFileContent(Map<String, Scanner> childrenFileNameMap) {
+		
+		Set<String> keySet = childrenFileNameMap.keySet();
+		Map<String, List<String>> mapaNumerosSorteados = new LinkedHashMap<String, List<String>>();
+		
+		for (String key : keySet) {
+			Scanner scanner = childrenFileNameMap.get(key);
+			
+			while(scanner.hasNext()) {
+				mapaNumerosSorteados.put(key, Arrays.asList(scanner.next().split(Pattern.quote(";"))));
+			}
+		}
+		
+		return mapaNumerosSorteados;
+	}
+	
+	public Map<String, Integer> returnTotalMatches(Map<String, List<String>> childrenFileContentMap, Map<String, List<String>> mapaJogosUtilizados) {
+		
+		Set<String> childrenContentKeySet = childrenFileContentMap.keySet();
+		Map<String, Integer> mapaTotalAcertos = new LinkedHashMap<String, Integer>();
+		
+		for (String childrenContentKey : childrenContentKeySet) {
+			Integer contadorAcertos = 0;
+			Set<String> jogosUtilizadosKeySet = mapaJogosUtilizados.keySet();
+			
+			for (String jogosUtilizadosKey : jogosUtilizadosKeySet) {
+				List<String> listaJogosUtilizados = mapaJogosUtilizados.get(jogosUtilizadosKey);
+				
+				for (String numeroJogoUtilizado : listaJogosUtilizados) {
+					List<String> listaNumerosSorteados = childrenFileContentMap.get(childrenContentKey);
+					
+					for (String numeroSorteado : listaNumerosSorteados) {
+						if (numeroJogoUtilizado.equalsIgnoreCase(numeroSorteado)) {
+							contadorAcertos++;
+						}
+					}
+					
+				}
+				mapaTotalAcertos.put(jogosUtilizadosKey + " ==> Sorteio " + childrenContentKey, contadorAcertos);
+				contadorAcertos = 0;
+			}
+		}
+		
+		return mapaTotalAcertos;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public String getMasterFileName() {
+		return masterFileName;
+	}
+
+	public void setMasterFileName(String masterFileName) {
+		this.masterFileName = masterFileName;
+	}
+	
+}

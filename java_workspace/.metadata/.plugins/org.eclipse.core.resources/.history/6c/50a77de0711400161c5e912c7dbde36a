@@ -1,0 +1,21 @@
+package array.flatten;
+
+public class Teste {
+
+	double coordDistanceOld(double latitude1, double longitude1, double latitude2, double longitude2) {
+		latitude1 = Math.toDegrees(latitude1);
+		longitude1 = Math.toDegrees(longitude1);
+		latitude2 = Math.toDegrees(latitude2);
+		longitude2 = Math.toDegrees(longitude2);
+		
+	    return 6371 * Math.acos(
+	        Math.sin(latitude1) * Math.sin(latitude2)
+	        + Math.cos(latitude1) * Math.cos(latitude2) * Math.cos(longitude2 - longitude1));
+	}
+	
+	public static void main(String[] args) {
+		Teste teste = new Teste();
+		double ret = teste.coordDistance(53.3381985, -6.2592576, 52.986375, -6.043701);
+		System.out.println(ret);
+	}
+}

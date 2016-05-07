@@ -1,0 +1,49 @@
+package great.circle.json;
+
+public class ClientObject {
+
+	private double latitude;
+	private double longitude;
+	private String name;
+	private Integer userId;
+	
+	public ClientObject() {
+		this.latitude = 0.0;
+		this.longitude = 0.0;
+		this.name = "";
+		this.userId = "";
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
+}

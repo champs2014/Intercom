@@ -1,0 +1,19 @@
+package array.flatten;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FlatArray {
+
+	private List<Integer> flatArray(int[][] entryArray) {
+		List<Integer> returnArray = new ArrayList<Integer>();
+		
+		for(int i = 0; i < entryArray.length; i++) {
+			for(int j = 0;j < entryArray[i].length; j++) {
+				returnArray.add(i, j);
+			}
+		}
+		
+		return returnArray;
+	}
+}

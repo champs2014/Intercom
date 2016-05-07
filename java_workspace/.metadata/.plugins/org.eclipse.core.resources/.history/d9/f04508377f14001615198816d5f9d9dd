@@ -1,0 +1,35 @@
+package great.circle.json;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import com.google.gson.Gson;
+
+public class Utils {
+
+	public void getJson(String fileUrl) {
+		Gson gson = new Gson();
+		try {
+    		BufferedReader br = new BufferedReader(new FileReader(File.listRoots()[0].getAbsolutePath() + File.separator + "Intercom" + File.separator  + "gistfile1.txt"));
+    		String line = "";
+    		
+    		while((line = br.readLine()) != null) {
+    			String trimmed = line.trim();
+    			ClientObject obj = gson.fromJson(trimmed, ClientObject.class);
+//    			System.out.println(obj.getLatitude());
+    		}    	 
+	     } catch (FileNotFoundException e) {
+    		e.printStackTrace();
+    	 } catch (IOException e) {
+    		e.printStackTrace();
+    	 }
+	}
+	
+//	public static void main(String[] args) {
+//		Utils utils = new Utils();
+//		utils.getJson();
+//	}
+}
